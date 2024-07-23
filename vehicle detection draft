@@ -1,0 +1,52 @@
+import cv2
+import numpy as np
+import tensorflow as tf
+
+#model = tf.keras.models.load_model('trained_model.h5')
+model = tf.keras.hub.load('https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/4')
+
+
+def estimate_traffic_density(image):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.resize(image, (224, 224))
+    image = image.astype('float32')
+    image = image.reshape(1, 224, 224, 1)
+    image = image / 255.0
+    predictions = model.predict(image)
+    number_of_vehicles = predictions[0][0]
+    traffic_density = number_of_vehicles / image.shape[2]
+
+    return traffic_density
+
+
+#while True:
+#    image = cv2.VideoCapture(0).read()[1]
+#    lane1_density = estimate_traffic_density(image[:, 0:400])
+#    lane2_density = estimate_traffic_density(image[:, 400:800])
+#    lane3_density = estimate_traffic_density(image[:, 800:1200])
+
+#    if lane1_density > lane2_density and lane1_density > lane3_density:
+#        print("lane 1")# lane 1 is congested
+#     if lane2_density > lane1_density and lane2_density > lane3_density:
+#        print("lane 2")# lane 2 is congested
+#      else:
+#        print("lane 3")# lane 3 is congested
+while True:
+    # Capture an image from the webcam
+    image = cv2.VideoCapture(0).read()[1]
+
+    # Estimate traffic density for each lane
+    lane1_density = estimate_traffic_density(image[:, 0:400])
+    lane2_density = estimate_traffic_density(image[:, 400:800])
+    lane3_density = estimate_traffic_density(image[:, 800:1200])
+
+    # Adjust traffic light timings based on traffic density
+    if lane1_density > lane2_density and lane1_density > lane3_density:
+        # Give green light to lane 1
+        print("Lane 1 is congested")
+    elif lane2_density > lane1_density and lane2_density > lane3_density:
+        # Give green light to lane 2
+        print("Lane 2 is congested")
+    else:
+        # Give green light to lane 3
+        print("Lane 3 is congested")
