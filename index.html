@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartTrafficControl — Project Home</title>
+  <meta name="description" content="YOLO-based traffic detection and microcontroller control system by Akhil" />
+  <style>
+    :root{
+      --bg:#f4f6f8; --card:#ffffff; --muted:#6b7280; --accent:#0ea5a4; --dark:#0f1724;
+      --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,system-ui,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),#eef2f6);color:var(--dark)}
+    header{background:linear-gradient(90deg,#09303a 0%, #0b5a5a 60%);color:#fff;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.08);font-weight:700}
+    .title{font-size:18px;font-weight:700}
+    nav{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    nav a{color:rgba(255,255,255,0.92);text-decoration:none;padding:8px 12px;border-radius:8px;font-size:14px}
+    nav a:hover{background:rgba(255,255,255,0.06)}
+    main{max-width:1100px;margin:24px auto;padding:20px}
+    .grid{display:grid;grid-template-columns: repeat(12,1fr);gap:18px}
+    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(15,23,36,0.06)}
+    .hero{grid-column:span 12;display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:22px}
+    .hero-left{flex:1;min-width:240px}
+    .hero h1{margin:0;font-size:22px;color:var(--dark)}
+    .hero p{margin:8px 0 0;color:var(--muted)}
+    .btn-row{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+    .btn{background:var(--accent);color:#fff;padding:8px 14px;border-radius:10px;text-decoration:none;font-weight:600}
+    .secondary{background:transparent;border:1px solid #e6eef0;color:var(--dark);padding:8px 12px;border-radius:10px;text-decoration:none}
+    .list{margin:0;padding:0;list-style:none}
+    .col-8{grid-column:span 8}
+    .col-4{grid-column:span 4}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    pre{background:#0f1724;color:#d1faf6;padding:12px;border-radius:8px;overflow:auto;font-size:13px}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,monospace}
+    .file-list{display:flex;flex-direction:column;gap:8px}
+    .file-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;border:1px solid #eef4f5}
+    .muted{color:var(--muted);font-size:14px}
+    .video-wrap{background:#000;border-radius:8px;overflow:hidden}
+    iframe,video{width:100%;height:240px;border:0;display:block}
+    footer{max-width:1100px;margin:20px auto;padding:18px;color:var(--muted);text-align:center}
+    @media (max-width:900px){
+      .col-8,.col-4{grid-column:span 12}
+      .hero h1{font-size:20px}
+      iframe,video{height:200px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">STC</div>
+      <div>
+        <div class="title">SmartTrafficControl</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.85)">YOLO detection + Microcontroller traffic manager</div>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#structure">Folder Structure</a>
+      <a href="#setup">Setup</a>
+      <a href="#demo">Demo</a>
+      <a href="#files">Files</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="grid">
+      <section class="card hero" id="overview">
+        <div class="hero-left">
+          <h1>YOLO-based traffic detection with Arduino control</h1>
+          <p>Detect pedestrians, vehicles and ambulances on four lanes using Ultralytics YOLO and control lane lights on an ESP32/Arduino via serial and WiFi requests.</p>
+          <div class="btn-row">
+            <a class="btn" href="#setup">Get Started</a>
+            <a class="secondary" href="https://github.com">Open on GitHub</a>
+          </div>
+        </div>
+        <div style="min-width:320px;flex:0 0 360px">
+          <div class="card" style="padding:12px;background:linear-gradient(180deg,#e9fbfb,#ffffff)">
+            <div style="font-weight:700">Quick facts</div>
+            <div style="margin-top:8px" class="muted">
+              <div>Python: Ultralytics YOLO, OpenCV</div>
+              <div>Arduino: ESP32 WiFiClient, Serial interface</div>
+              <div>4 lanes, emergency prioritization</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card col-8" id="structure">
+        <div class="section-title">
+          <h2 style="margin:0">Folder Structure</h2>
+          <div class="muted">Organized for direct upload (no local files required)</div>
+        </div>
+        <pre><code>SmartTrafficControl/
+├── pedestrian_detection.py
+├── ambulance_detection.py
+├── microcontroller/
+│   └── traffic_control.ino
+├── models/
+│   └── best (3).pt
+├── videos/
+│   ├── video_3(pashu).mp4
+│   ├── ambulance_video.mp4
+│   ├── Chakka Frame extract (1).mp4
+│   └── video_2(gb).mp4
+├── README.md
+├── requirements.txt
+└── .gitignore
+        </code></pre>
+      </section>
+
+      <aside class="card col-4" id="files">
+        <div class="section-title">
+          <h3 style="margin:0">Files</h3>
+          <div class="muted">Click names to open on GitHub</div>
+        </div>
+        <div class="file-list">
+          <div class="file-item"><div>pedestrian_detection.py</div><div class="muted">YOLO + serial</div></div>
+          <div class="file-item"><div>ambulance_detection.py</div><div class="muted">YOLO + serial</div></div>
+          <div class="file-item"><div>microcontroller/traffic_control.ino</div><div class="muted">ESP32 firmware</div></div>
+          <div class="file-item"><div>models/best (3).pt</div><div class="muted">YOLO model (upload if allowed)</div></div>
+          <div class="file-item"><div>README.md</div><div class="muted">Project overview</div></div>
+        </div>
+      </aside>
+
+      <section class="card col-8" id="setup">
+        <div class="section-title">
+          <h2 style="margin:0">Setup</h2>
+          <div class="muted">Non-destructive steps (keep code unchanged)</div>
+        </div>
+
+        <ol style="padding-left:18px">
+          <li class="muted">Create files in GitHub web UI and paste your original scripts exactly as they are.</li>
+          <li class="muted">Add <code>models/best (3).pt</code> to <code>models/</code> if you want to store it in the repo (consider .gitignore if too large).</li>
+          <li class="muted">Install dependencies locally or on the machine running detection:
+            <pre>pip install -r requirements.txt</pre>
+          </li>
+          <li class="muted">Open and flash <code>microcontroller/traffic_control.ino</code> to your ESP32 using Arduino IDE.</li>
+          <li class="muted">Connect the ESP32 to your PC and run the detection scripts; they will communicate via serial (COM port).</li>
+        </ol>
+      </section>
+
+      <section class="card col-4" id="demo">
+        <div class="section-title">
+          <h3 style="margin:0">Demo</h3>
+          <div class="muted">Upload or embed a sample</div>
+        </div>
+
+        <div class="video-wrap">
+          <!-- Replace the src below with your uploaded GitHub raw video URL or a YouTube embed -->
+          <video controls poster="" style="background:#000">
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div style="margin-top:12px" class="muted">To embed a working video, paste the raw file URL into the &lt;source src&gt; or use a YouTube iframe.</div>
+      </section>
+
+      <section class="card col-12">
+        <div class="section-title">
+          <h2 style="margin:0">Copy-paste assets</h2>
+          <div class="muted">Files I prepared for you to add via GitHub web editor</div>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px" class="card">
+            <strong>README.md</strong>
+            <div class="muted" style="margin-top:8px">Add the README content you approved earlier.</div>
+          </div>
+
+          <div style="flex:1;min-width:220px" class="card">
+            <strong>requirements.txt</strong>
+            <div class="muted" style="margin-top:8px">ultralytics, opencv-python, pyserial</div>
+          </div>
+
+          <div style="flex:1;min-width:220px" class="card">
+            <strong>.gitignore</strong>
+            <div class="muted" style="margin-top:8px">Ignore large models and videos if desired</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    Built by Akhil — copy your original scripts into the repo using GitHub's web editor. Visit your repo settings to enable GitHub Pages and publish this page.
+  </footer>
+</body>
+</html>
